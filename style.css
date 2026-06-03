@@ -1,21 +1,32 @@
-body {
+/* =========================
+   SWIPE LEFT STYLESHEET
+   ========================= */
+
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     font-family: Arial, sans-serif;
     background-color: #f8faf8;
     color: #222;
+    line-height: 1.6;
 }
+
+/* NAVIGATION */
 
 nav {
     background-color: white;
+    border-bottom: 1px solid #dfe7df;
     padding: 18px;
     text-align: center;
-    border-bottom: 1px solid #dfe7df;
 }
 
 nav a {
-    color: #1b5e20;
     text-decoration: none;
+    color: #1b5e20;
     font-weight: bold;
     margin: 0 12px;
 }
@@ -24,70 +35,129 @@ nav a:hover {
     color: #2e7d32;
 }
 
+/* DARK MODE BUTTON */
+
 #theme-toggle {
     margin-left: 15px;
     padding: 8px 12px;
     border: none;
     border-radius: 6px;
+    background-color: #1b5e20;
+    color: white;
     cursor: pointer;
+    font-size: 14px;
 }
+
+#theme-toggle:hover {
+    background-color: #2e7d32;
+}
+
+/* HERO */
 
 .hero {
     text-align: center;
-    padding: 80px 20px;
-    background: linear-gradient(to bottom, #ffffff, #eef7ef);
+    padding: 120px 20px;
+    background: linear-gradient(
+        to bottom,
+        #ffffff,
+        #eef7ef
+    );
 }
 
 .hero h1 {
-    font-size: 4rem;
+    font-size: 5rem;
     color: #1b5e20;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .hero h2 {
+    font-size: 2rem;
     color: #444;
+    margin-bottom: 15px;
     font-weight: normal;
 }
 
 .hero p {
     color: #666;
+    font-size: 1.2rem;
 }
+
+/* SECTION TITLES */
 
 .section-title {
     text-align: center;
     color: #1b5e20;
-    margin-top: 50px;
+    font-size: 3rem;
+    margin-top: 60px;
+    margin-bottom: 40px;
 }
 
+/* CARDS */
+
 .cards {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: auto;
     padding: 20px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .card {
-    background: white;
-    width: 300px;
-    padding: 25px;
+    width: 320px;
+    background-color: white;
     border-radius: 12px;
+    padding: 25px;
     box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    transition: 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 .card h3 {
-    margin-top: 0;
+    color: #1b5e20;
+    margin-bottom: 15px;
 }
 
-.card a {
-    color: #1b5e20;
-    text-decoration: none;
+.card p {
+    color: #444;
 }
+
+/* GENERAL PAGE CONTENT */
+
+.content {
+    max-width: 900px;
+    margin: auto;
+    padding: 50px 20px;
+}
+
+.content h1 {
+    color: #1b5e20;
+    margin-bottom: 20px;
+}
+
+.content h2 {
+    margin-top: 35px;
+    margin-bottom: 15px;
+    color: #1b5e20;
+}
+
+.content p {
+    margin-bottom: 15px;
+}
+
+/* FOOTER */
 
 footer {
+    margin-top: 80px;
     text-align: center;
     padding: 30px;
-    margin-top: 40px;
+    border-top: 1px solid #dfe7df;
+    background-color: white;
+    color: #666;
 }
 
 /* DARK MODE */
@@ -107,18 +177,25 @@ footer {
 }
 
 .dark-mode .hero {
-    background: linear-gradient(to bottom, #1a1a1a, #121212);
+    background: linear-gradient(
+        to bottom,
+        #1a1a1a,
+        #121212
+    );
 }
 
 .dark-mode .hero h1,
 .dark-mode .section-title,
-.dark-mode .card h3 {
+.dark-mode .card h3,
+.dark-mode .content h1,
+.dark-mode .content h2 {
     color: #7fd68c;
 }
 
 .dark-mode .hero h2,
-.dark-mode .hero p {
-    color: #ccc;
+.dark-mode .hero p,
+.dark-mode .content p {
+    color: #d0d0d0;
 }
 
 .dark-mode .card {
@@ -127,12 +204,28 @@ footer {
 
 .dark-mode footer {
     background-color: #1a1a1a;
+    border-top: 1px solid #333;
 }
+
+.dark-mode #theme-toggle {
+    background-color: #7fd68c;
+    color: black;
+}
+
+/* MOBILE */
 
 @media (max-width: 768px) {
 
     .hero h1 {
         font-size: 3rem;
+    }
+
+    .hero h2 {
+        font-size: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
     }
 
     .card {
@@ -142,5 +235,9 @@ footer {
     nav a {
         display: inline-block;
         margin: 6px;
+    }
+
+    #theme-toggle {
+        margin-top: 10px;
     }
 }
