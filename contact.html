@@ -28,51 +28,26 @@
         Questions, suggestions, or corrections are welcome.
     </p>
 
+    <h2>Email</h2>
+
     <p>
-        Email:
-        <strong>contact@swipeleft.org</strong>
+        contact@swipeleft.org
     </p>
 
-    <h2>Content Requests</h2>
+    <h2>Feedback</h2>
 
     <p>
-        If there is an Islamic topic, khutbah, or educational guide you would
-        like to see covered, feel free to reach out.
-    </p>
-
-    <h2>Corrections</h2>
-
-    <p>
-        Accuracy is important. If you notice an error in any content on this
-        site, please contact us so it can be reviewed and corrected.
+        If you have suggestions for future khutbahs, guides, or educational
+        resources, feel free to reach out.
     </p>
 
 </div>
 
 <footer>
-    <p>© Swipe Left</p>
+    © Swipe Left
 </footer>
 
-<script>
-const toggleButton = document.getElementById('theme-toggle');
-
-if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-    toggleButton.textContent = '☀️';
-}
-
-toggleButton.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-
-    if (document.body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-        toggleButton.textContent = '☀️';
-    } else {
-        localStorage.setItem('theme', 'light');
-        toggleButton.textContent = '🌙';
-    }
-});
-</script>
+<script src="theme.js"></script>
 
 </body>
 </html>
