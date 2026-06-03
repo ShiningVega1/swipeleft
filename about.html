@@ -25,64 +25,40 @@
     <h1>About Swipe Left</h1>
 
     <p>
-        Swipe Left is a personal Islamic resource project dedicated to sharing
-        khutbahs, educational guides, and practical reminders for Muslims.
+        Swipe Left is a personal Islamic project dedicated to sharing khutbahs,
+        educational resources, reminders, and practical guidance.
     </p>
 
     <p>
-        The name "Swipe Left" reflects the idea of turning away from harmful
-        desires and distractions and instead choosing what pleases Allah.
+        The phrase "Swipe Left" represents turning away from distractions,
+        temptations, and harmful influences in order to pursue what benefits
+        us in this life and the next.
     </p>
 
-    <p>
-        This site serves as a collection of khutbahs, teaching materials,
-        Islamic reflections, and community resources developed for educational
-        purposes.
-    </p>
-
-    <h2>Our Mission</h2>
+    <h2>Mission</h2>
 
     <p>
-        To provide accessible Islamic content that encourages knowledge,
+        To provide beneficial Islamic content that encourages learning,
         character, worship, and action.
     </p>
 
-    <h2>What You'll Find Here</h2>
+    <h2>What You'll Find</h2>
 
     <ul>
         <li>Khutbahs and reminders</li>
         <li>Teaching guides</li>
-        <li>Islamic educational resources</li>
-        <li>Practical applications of Islam in daily life</li>
-        <li>Community projects and initiatives</li>
+        <li>Islamic resources</li>
+        <li>Community projects</li>
+        <li>Practical applications of Islam</li>
     </ul>
 
 </div>
 
 <footer>
-    <p>© Swipe Left</p>
+    © Swipe Left
 </footer>
 
-<script>
-const toggleButton = document.getElementById('theme-toggle');
-
-if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-    toggleButton.textContent = '☀️';
-}
-
-toggleButton.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-
-    if (document.body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-        toggleButton.textContent = '☀️';
-    } else {
-        localStorage.setItem('theme', 'light');
-        toggleButton.textContent = '🌙';
-    }
-});
-</script>
+<script src="theme.js"></script>
 
 </body>
 </html>
