@@ -1,45 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SwipeLeft.org</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Swipe Left</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <nav>
-    <a href="/">Home</a> |
-    <a href="/khutbahs/">Khutbah Library</a> |
-    <a href="/guides/">Teaching Guides</a> |
-    <a href="/action/">Islam in Action</a> |
-    <a href="/schedule.html">Khutbah Schedule</a> |
-    <a href="/about.html">About Us</a> |
+    <a href="/">Home</a>
+    <a href="/khutbahs/">Khutbah Library</a>
+    <a href="/guides/">Teaching Guides</a>
+    <a href="/action/">Islam in Action</a>
+    <a href="/schedule.html">Schedule</a>
+    <a href="/about.html">About</a>
     <a href="/contact.html">Contact</a>
+
+    <button id="theme-toggle">🌙</button>
 </nav>
 
-<hr>
+<div class="content">
 
-<h1>SwipeLeft.org</h1>
+    <h1>About Swipe Left</h1>
 
-<p><strong>Swipe Left to Your Nafs</strong></p>
+    <p>
+        Swipe Left is a personal Islamic resource project dedicated to sharing
+        khutbahs, educational guides, and practical reminders for Muslims.
+    </p>
 
-<p>
-Practical Islamic guidance, khutbahs, and educational resources
-for Muslims seeking to strengthen their faith and character.
-</p>
+    <p>
+        The name "Swipe Left" reflects the idea of turning away from harmful
+        desires and distractions and instead choosing what pleases Allah.
+    </p>
 
-<hr>
+    <p>
+        This site serves as a collection of khutbahs, teaching materials,
+        Islamic reflections, and community resources developed for educational
+        purposes.
+    </p>
 
-<h2>Featured Sections</h2>
+    <h2>Our Mission</h2>
 
-<ul>
-    <li><a href="/khutbahs/">Khutbah Library</a></li>
-    <li><a href="/guides/">Teaching Guides</a></li>
-    <li><a href="/action/">Islam in Action</a></li>
-</ul>
+    <p>
+        To provide accessible Islamic content that encourages knowledge,
+        character, worship, and action.
+    </p>
 
-<hr>
+    <h2>What You'll Find Here</h2>
 
-<p>© SwipeLeft.org</p>
+    <ul>
+        <li>Khutbahs and reminders</li>
+        <li>Teaching guides</li>
+        <li>Islamic educational resources</li>
+        <li>Practical applications of Islam in daily life</li>
+        <li>Community projects and initiatives</li>
+    </ul>
+
+</div>
+
+<footer>
+    <p>© Swipe Left</p>
+</footer>
+
+<script>
+const toggleButton = document.getElementById('theme-toggle');
+
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggleButton.textContent = '☀️';
+}
+
+toggleButton.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+
+    if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+        toggleButton.textContent = '☀️';
+    } else {
+        localStorage.setItem('theme', 'light');
+        toggleButton.textContent = '🌙';
+    }
+});
+</script>
 
 </body>
 </html>
