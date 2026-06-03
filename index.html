@@ -34,53 +34,28 @@
 
 <div class="cards">
 
-    <div class="card">
+    <a class="card" href="/khutbahs/">
         <h3>Khutbah Library</h3>
-        <p>
-            Access khutbahs, reminders, and educational talks.
-        </p>
-    </div>
+        <p>Access khutbahs, reminders, and educational talks.</p>
+    </a>
 
-    <div class="card">
+    <a class="card" href="/guides/">
         <h3>Teaching Guides</h3>
-        <p>
-            Learn about Islam, prayer, awrah, character, and more.
-        </p>
-    </div>
+        <p>Learn about Islam, prayer, awrah, character, and more.</p>
+    </a>
 
-    <div class="card">
+    <a class="card" href="/action/">
         <h3>Islam in Action</h3>
-        <p>
-            Practical examples of living Islam in everyday life.
-        </p>
-    </div>
+        <p>Practical examples of living Islam in everyday life.</p>
+    </a>
 
 </div>
 
 <footer>
-    <p>© Swipe Left</p>
+    © Swipe Left
 </footer>
 
-<script>
-const toggleButton = document.getElementById('theme-toggle');
-
-if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-    toggleButton.textContent = '☀️';
-}
-
-toggleButton.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-
-    if (document.body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-        toggleButton.textContent = '☀️';
-    } else {
-        localStorage.setItem('theme', 'light');
-        toggleButton.textContent = '🌙';
-    }
-});
-</script>
+<script src="theme.js"></script>
 
 </body>
 </html>
