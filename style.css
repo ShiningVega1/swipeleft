@@ -5,25 +5,29 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background: #f6f8f6;
     color: #222;
-    line-height: 1.6;
-    transition: 0.3s;
+    line-height: 1.8;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 nav {
     background: white;
-    padding: 18px;
+    padding: 20px;
     text-align: center;
     border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 nav a {
     color: #1b5e20;
     text-decoration: none;
-    margin: 0 12px;
-    font-weight: bold;
+    margin: 0 15px;
+    font-weight: 600;
+    transition: color 0.2s;
 }
 
 nav a:hover {
@@ -35,105 +39,124 @@ nav a:hover {
     border: none;
     background: #1b5e20;
     color: white;
-    padding: 8px 12px;
+    padding: 8px 16px;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+#theme-toggle:hover {
+    background: #2e7d32;
 }
 
 .hero {
     text-align: center;
-    padding: 120px 20px;
-    background: linear-gradient(
-        to bottom,
-        #ffffff,
-        #eef7ef
-    );
+    padding: 140px 20px;
+    background: linear-gradient(to bottom, #ffffff, #eef7ef);
 }
 
 .hero h1 {
-    font-size: 5rem;
+    font-size: 4.5rem;
     color: #1b5e20;
+    letter-spacing: -1px;
+    line-height: 1.1;
 }
 
 .hero h2 {
-    margin-top: 15px;
-    font-weight: normal;
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 1.5rem;
 }
 
 .hero p {
     margin-top: 15px;
-    color: #666;
+    color: #555;
+    font-size: 1.1rem;
 }
 
 .section-title {
     text-align: center;
-    margin-top: 60px;
-    margin-bottom: 40px;
+    margin-top: 80px;
+    margin-bottom: 50px;
     color: #1b5e20;
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 
 .cards {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 25px;
+    gap: 30px;
     max-width: 1200px;
     margin: auto;
     padding: 20px;
 }
 
 .card {
-    width: 320px;
+    width: 340px;
     background: white;
     text-decoration: none;
     color: inherit;
     border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 3px 12px rgba(0,0,0,.08);
-    transition: 0.2s;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid transparent;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    border-color: #81c784;
 }
 
 .card h3 {
     color: #1b5e20;
     margin-bottom: 15px;
+    font-size: 1.4rem;
 }
 
 .content {
-    max-width: 900px;
+    max-width: 800px;
     margin: auto;
-    padding: 60px 20px;
+    padding: 80px 20px;
 }
 
 .content h1 {
     color: #1b5e20;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
 }
 
 .content h2 {
     color: #1b5e20;
-    margin-top: 30px;
-    margin-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    font-size: 1.8rem;
 }
 
 .content p,
 .content li {
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+    color: #444;
+}
+
+.content ul {
+    margin-left: 20px;
+    margin-bottom: 20px;
 }
 
 footer {
     text-align: center;
     padding: 40px;
-    margin-top: 60px;
+    margin-top: 80px;
     border-top: 1px solid #ddd;
+    color: #666;
 }
 
 /* DARK MODE */
-
 .dark-mode {
     background: #0f1113;
     color: #e6e6e6;
@@ -148,12 +171,12 @@ footer {
     color: #8ee29b;
 }
 
+.dark-mode nav a:hover {
+    color: #a5d6a7;
+}
+
 .dark-mode .hero {
-    background: linear-gradient(
-        to bottom,
-        #171a1d,
-        #0f1113
-    );
+    background: linear-gradient(to bottom, #171a1d, #0f1113);
 }
 
 .dark-mode .hero h1,
@@ -174,29 +197,39 @@ footer {
 .dark-mode .card {
     background: #1d2125;
     border: 1px solid #333;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.dark-mode .card:hover {
+    border-color: #8ee29b;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.4);
 }
 
 .dark-mode .card p {
-    color: #d5d5d5;
+    color: #b0b0b0;
 }
 
 .dark-mode footer {
     border-top: 1px solid #333;
+    color: #888;
 }
 
 /* MOBILE */
-
 @media (max-width: 768px) {
-
+    nav a {
+        display: inline-block;
+        margin: 5px 10px;
+    }
+    
     .hero h1 {
-        font-size: 3rem;
+        font-size: 3.2rem;
     }
 
     .hero h2 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 
-    .section-title {
+    .section-title, .content h1 {
         font-size: 2rem;
     }
 
