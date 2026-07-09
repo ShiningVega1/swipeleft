@@ -1,36 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Quran</title>
-    <link rel="stylesheet" href="/style.css"> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>SwipeLeft - Interactive Quran</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* MAXIMIZED MAIN CONTAINER */
         .quran-container {
             display: grid;
-            grid-template-columns: 340px 1fr; /* Widened menu panel */
+            grid-template-columns: 340px 1fr;
             gap: 35px;
             margin-top: 25px;
-            max-width: 100%; /* Spans full horizontal container space */
+            max-width: 100%;
         }
         @media (max-width: 900px) {
             .quran-container { grid-template-columns: 1fr; }
         }
-
-        /* WIDER CONTROL SIDEBAR */
         .controls-sidebar {
-            background: var(--card-bg, #f9f9f9);
+            background: var(--accent-bg);
             padding: 25px;
             border-radius: 12px;
             height: fit-content;
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid var(--border-color);
         }
-        .control-group {
-            margin-bottom: 24px;
-        }
+        .control-group { margin-bottom: 24px; }
         .control-group label {
             display: block;
             font-weight: bold;
@@ -38,15 +35,15 @@
             font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--text-muted, #555);
+            color: var(--text-muted);
         }
         .control-group select, .control-group input, .control-group button {
             width: 100%;
-            padding: 12px 14px; /* Bigger touch targets */
+            padding: 12px 14px;
             border-radius: 8px;
-            border: 1px solid #ccc;
-            background: var(--bg-color, white);
-            color: var(--text-color, #222);
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
             font-size: 1.05rem;
             cursor: pointer;
             box-sizing: border-box;
@@ -56,10 +53,7 @@
             grid-template-columns: 2.2fr 1fr;
             gap: 12px;
         }
-        .size-controls {
-            display: flex;
-            gap: 12px;
-        }
+        .size-controls { display: flex; gap: 12px; }
         .size-btn {
             background: #e0e0e0;
             color: #222 !important;
@@ -73,15 +67,11 @@
             transition: all 0.2s ease;
         }
         .toggle-btn.active {
-            background: #1b5e20 !important;
+            background: var(--islam-green) !important;
             color: white !important;
-            border-color: #1b5e20;
+            border-color: var(--islam-green);
         }
-        .bookmark-list {
-            list-style: none;
-            padding: 0;
-            margin: 15px 0 0 0;
-        }
+        .bookmark-list { list-style: none; padding: 0; margin: 15px 0 0 0; }
         .bookmark-item {
             display: flex;
             justify-content: space-between;
@@ -92,170 +82,95 @@
             border-radius: 6px;
             font-size: 0.95rem;
         }
-        .bookmark-item span {
-            cursor: pointer;
-            color: #1b5e20;
-            font-weight: bold;
-        }
-        .bookmark-item button {
-            width: auto;
-            padding: 4px 8px;
-            background: #d32f2f;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 0.8rem;
-        }
-
-        /* MASSIVE EMBOLDENED READ BOX PANELS */
+        .bookmark-item span { cursor: pointer; color: var(--islam-green); font-weight: bold; }
+        .bookmark-item button { width: auto; padding: 4px 8px; background: var(--nchs-red); color: white; border: none; border-radius: 4px; font-size: 0.8rem; }
         .reader-area {
-            background: var(--card-bg, white);
-            padding: 45px 50px; /* Highly spacious internal reading pads */
+            background: var(--card-bg);
+            padding: 45px 50px;
             border-radius: 14px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             min-height: 600px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
-        .surah-header {
-            text-align: center;
-            border-bottom: 3px solid #1b5e20;
-            padding-bottom: 25px;
-            margin-bottom: 40px;
-        }
-        .surah-header h2 {
-            font-size: 2.2rem;
-            margin: 0;
-        }
-        .bismillah {
-            font-family: "Amiri Quran", serif;
-            text-align: center;
-            margin: 30px 0 50px 0;
-            color: #1b5e20;
-            direction: rtl;
-        }
-        .ayah-card {
-            padding: 40px 0; /* Significant separation between lines */
-            border-bottom: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
-            gap: 22px;
-            transition: background-color 0.5s ease;
-        }
-        .arabic-text {
-            line-height: 2.5;
-            text-align: right;
-            direction: rtl;
-            font-weight: normal;
-        }
-        
-        .script-uthmani { 
-            font-family: "Amiri Quran", "Scheherazade New", serif; 
-        }
-        .script-indopak { 
-            font-family: "Scheherazade New", serif;
-            font-weight: 700;
-        }
-        
-        .translation-text {
-            font-size: 1.25rem; /* Upgraded baseline scale translation */
-            line-height: 1.8;
-            color: var(--text-muted, #333);
-            max-width: 90%; /* Keeps text line lengths crisp and easy to scan */
-        }
-        .ayah-meta {
-            display: flex;
-            gap: 20px;
-            font-size: 0.9rem;
-            color: #888;
-            align-items: center;
-            margin-top: 5px;
-        }
-        .action-link {
-            color: #1b5e20;
-            cursor: pointer;
-            text-decoration: underline;
-            font-weight: bold;
-        }
-        .loading {
-            text-align: center;
-            font-size: 1.4rem;
-            color: #666;
-            padding: 40px 0;
-        }
+        .surah-header { text-align: center; border-bottom: 3px solid var(--islam-green); padding-bottom: 25px; margin-bottom: 40px; }
+        .surah-header h2 { font-size: 2.2rem; margin: 0; }
+        .bismillah { font-family: "Amiri Quran", serif; text-align: center; margin: 30px 0 50px 0; color: var(--islam-green); direction: rtl; }
+        .ayah-card { padding: 40px 0; border-bottom: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 22px; transition: background-color 0.5s ease; }
+        .arabic-text { line-height: 2.5; text-align: right; direction: rtl; font-weight: normal; }
+        .script-uthmani { font-family: "Amiri Quran", "Scheherazade New", serif; }
+        .script-indopak { font-family: "Scheherazade New", serif; font-weight: 700; }
+        .translation-text { font-size: 1.25rem; line-height: 1.8; color: var(--text-color); max-width: 90%; }
+        .ayah-meta { display: flex; gap: 20px; font-size: 0.9rem; color: var(--text-muted); align-items: center; margin-top: 5px; }
+        .action-link { color: var(--islam-green); cursor: pointer; text-decoration: underline; font-weight: bold; }
+        .loading { text-align: center; font-size: 1.4rem; color: var(--text-muted); padding: 40px 0; }
     </style>
 </head>
 <body>
 
-<nav>
-    <a href="/">Home</a>
-    <a href="/khutbahs/">Khutbah Library</a>
-    <a href="/guides/">Teaching Guides</a>
-    <a href="/action/">Islam in Action</a>
-    <a href="/quran/">Read Quran</a>
-    <a href="/schedule.html">Schedule</a>
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
-    
-    <button id="theme-toggle">🌙</button>
-</nav>
-
-<div class="content" style="max-width: 1400px; margin: 0 auto; padding: 0 20px;">
-    <h1>Interactive Quran Reader</h1>
-
-    <div class="quran-container">
-        <div class="controls-sidebar">
-            <div class="control-group">
-                <label>Navigate Location</label>
-                <div class="nav-row">
-                    <select id="surah-select"></select>
-                    <input type="number" id="ayah-input" min="1" placeholder="Ayah" title="Type verse number and press enter">
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label>Arabic Text Size</label>
-                <div class="size-controls">
-                    <button class="size-btn" onclick="adjustFontSize(-0.3)">A-</button>
-                    <button class="size-btn" onclick="adjustFontSize(0.3)">A+</button>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label>Writing Script</label>
-                <button id="script-toggle" class="toggle-btn active">Uthmani (Madina)</button>
-            </div>
-
-            <div class="control-group">
-                <label>English Translation</label>
-                <button id="translation-toggle" class="toggle-btn active">Show Translation</button>
-            </div>
-
-            <hr style="border: 0; border-top: 1px solid #ddd; margin: 25px 0;">
-            
-            <h3>Bookmarks</h3>
-            <ul id="bookmarks-container" class="bookmark-list"></ul>
+<div class="app-content-wrapper">
+    <nav>
+        <a href="/" class="nav-brand">SwipeLeft</a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/about.html">About</a>
+            <a href="/schedule.html">Schedule</a>
+            <a href="/quran/">Quran</a>
+            <a href="/khutbahs/">Sermon Library</a>
+            <a href="/action/">Islam in Action</a>
         </div>
+        <button id="theme-toggle">🌙</button>
+    </nav>
 
-        <div class="reader-area">
-            <div id="surah-title-area" class="surah-header">
-                <h2>Select a chapter to begin loading</h2>
+    <div class="content" style="max-width: 1400px; margin: 0 auto;">
+        <div class="quran-container">
+            <div class="controls-sidebar">
+                <div class="control-group">
+                    <label>Navigate Location</label>
+                    <div class="nav-row">
+                        <select id="surah-select"></select>
+                        <input type="number" id="ayah-input" min="1" placeholder="Ayah">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label>Arabic Text Size</label>
+                    <div class="size-controls">
+                        <button class="size-btn" onclick="adjustFontSize(-0.3)">A-</button>
+                        <button class="size-btn" onclick="adjustFontSize(0.3)">A+</button>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label>Writing Script</label>
+                    <button id="script-toggle" class="toggle-btn active">Uthmani (Madina)</button>
+                </div>
+                <div class="control-group">
+                    <label>English Translation</label>
+                    <button id="translation-toggle" class="toggle-btn active">Show Translation</button>
+                </div>
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 25px 0;">
+                <h3>Bookmarks</h3>
+                <ul id="bookmarks-container" class="bookmark-list"></ul>
             </div>
-            <div id="quran-display">
-                <div class="loading">Please choose a Surah from the sidebar configuration menu.</div>
+
+            <div class="reader-area">
+                <div id="surah-title-area" class="surah-header">
+                    <h2>Select a chapter to begin loading</h2>
+                </div>
+                <div id="quran-display">
+                    <div class="loading">Please choose a Surah from the sidebar options.</div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <footer>
-    © Swipe Left
+    © SwipeLeft
 </footer>
 
 <script>
     let currentSurah = 1;
     let currentScript = 'uthmani'; 
     let showTranslation = true;
-    let arabicFontSize = 2.8; // Boosted starting base font point scale
+    let arabicFontSize = 2.8; 
     let bookmarks = JSON.parse(localStorage.getItem('quran_bookmarks')) || [];
 
     const surahSelect = document.getElementById('surah-select');
@@ -266,7 +181,6 @@
     const surahTitleArea = document.getElementById('surah-title-area');
     const bookmarksContainer = document.getElementById('bookmarks-container');
 
-    // Theme Engine Hook
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
@@ -277,13 +191,15 @@
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-theme');
             themeToggle.textContent = '☀️';
+        } else {
+            document.body.classList.remove('dark-theme');
+            themeToggle.textContent = '🌙';
         }
     }
 
     window.adjustFontSize = function(amount) {
         arabicFontSize = Math.max(1.8, Math.min(5.0, arabicFontSize + amount));
-        const targets = document.querySelectorAll('.arabic-text');
-        targets.forEach(el => el.style.fontSize = `${arabicFontSize}rem`);
+        document.querySelectorAll('.arabic-text').forEach(el => el.style.fontSize = `${arabicFontSize}rem`);
         const bismillah = document.querySelector('.bismillah');
         if (bismillah) bismillah.style.fontSize = `${arabicFontSize - 0.2}rem`;
     };
@@ -292,167 +208,79 @@
         try {
             const res = await fetch('https://api.alquran.cloud/v1/surah');
             const data = await res.json();
-            surahSelect.innerHTML = data.data.map(s => 
-                `<option value="${s.number}">${s.number}. ${s.englishName} (${s.name})</option>`
-            ).join('');
-            
+            surahSelect.innerHTML = data.data.map(s => `<option value="${s.number}">${s.number}. ${s.englishName} (${s.name})</option>`).join('');
             surahSelect.value = currentSurah;
             loadSurahData();
-        } catch (err) {
-            quranDisplay.innerHTML = `<div class="loading" style="color:red">Failed to load the list of Surahs.</div>`;
-        }
+        } catch (err) { quranDisplay.innerHTML = `<div class="loading" style="color:red">Failed to load the list of Surahs.</div>`; }
     }
 
     async function loadSurahData() {
-        quranDisplay.innerHTML = '<div class="loading">Fetching verses from database...</div>';
+        quranDisplay.innerHTML = '<div class="loading">Fetching verses...</div>';
         const arabicEdition = currentScript === 'uthmani' ? 'quran-uthmani' : 'quran-indopak';
-        
         try {
             const responseArabic = await fetch(`https://api.alquran.cloud/v1/surah/${currentSurah}/${arabicEdition}`);
             const dataArabic = await responseArabic.json();
-            
             let dataTranslation = null;
             if (showTranslation) {
                 const responseTrans = await fetch(`https://api.alquran.cloud/v1/surah/${currentSurah}/en.sahih`);
                 dataTranslation = await responseTrans.json();
             }
-
             renderSurah(dataArabic.data, dataTranslation ? dataTranslation.data : null);
-        } catch (error) {
-            quranDisplay.innerHTML = `<div class="loading" style="color:red">Error fetching Surah data.</div>`;
-        }
+        } catch (error) { quranDisplay.innerHTML = `<div class="loading" style="color:red">Error fetching Surah data.</div>`; }
     }
 
     function renderSurah(arabicData, translationData) {
-        surahTitleArea.innerHTML = `
-            <h2>Surah ${arabicData.englishName}</h2>
-            <p style="color: #666; margin: 8px 0 0 0; font-size: 1.1rem;">${arabicData.englishNameTranslation} • ${arabicData.numberOfAyahs} Verses</p>
-        `;
-
+        surahTitleArea.innerHTML = `<h2>Surah ${arabicData.englishName}</h2><p style="color: var(--text-muted); margin: 8px 0 0 0; font-size: 1.1rem;">${arabicData.englishNameTranslation} • ${arabicData.numberOfAyahs} Verses</p>`;
         let htmlContent = '';
-
         if (currentSurah != 1 && currentSurah != 9) {
             htmlContent += `<div class="bismillah" style="font-size: ${arabicFontSize - 0.2}rem">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
         }
-
         arabicData.ayahs.forEach((ayah, index) => {
             let cleanText = ayah.text;
-            
             if (currentSurah != 1 && currentSurah != 9 && index === 0) {
-                if (cleanText.startsWith("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ")) {
-                    cleanText = cleanText.replace("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ", "");
-                } else if (cleanText.startsWith("بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ")) {
-                    cleanText = cleanText.replace("بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ", "");
-                }
+                if (cleanText.startsWith("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ")) cleanText = cleanText.replace("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ", "");
+                else if (cleanText.startsWith("بِسْمِ office.اللهِ الرَّحْمٰنِ الرَّحِيْمِ ")) cleanText = cleanText.replace("بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ", "");
             }
-
             const fontClass = currentScript === 'uthmani' ? 'script-uthmani' : 'script-indopak';
-
-            htmlContent += `
-                <div class="ayah-card" id="ayah-${ayah.numberInSurah}">
-                    <div class="arabic-text ${fontClass}" style="font-size: ${arabicFontSize}rem">${cleanText} <span style="color: #1b5e20; font-family: sans-serif; font-size: 1.6rem; font-weight: bold; vertical-align: middle;">﴿${ayah.numberInSurah}﴾</span></div>
-                    ${showTranslation && translationData ? `<div class="translation-text">${translationData.ayahs[index].text}</div>` : ''}
-                    <div class="ayah-meta">
-                        <span>Ref: ${currentSurah}:${ayah.numberInSurah}</span>
-                        <span class="action-link" onclick="addBookmark(${currentSurah}, ${ayah.numberInSurah}, '${arabicData.englishName}')">🔖 Bookmark</span>
-                    </div>
-                </div>
-            `;
+            htmlContent += `<div class="ayah-card" id="ayah-${ayah.numberInSurah}"><div class="arabic-text ${fontClass}" style="font-size: ${arabicFontSize}rem">${cleanText} <span style="color: var(--islam-green); font-family: sans-serif; font-size: 1.6rem; font-weight: bold; vertical-align: middle;">﴿${ayah.numberInSurah}﴾</span></div>${showTranslation && translationData ? `<div class="translation-text">${translationData.ayahs[index].text}</div>` : ''}<div class="ayah-meta"><span>Ref: ${currentSurah}:${ayah.numberInSurah}</span><span class="action-link" onclick="addBookmark(${currentSurah}, ${ayah.numberInSurah}, '${arabicData.englishName}')">🔖 Bookmark</span></div></div>`;
         });
-
         quranDisplay.innerHTML = htmlContent;
     }
 
     async function jumpToAyah(ayahNum) {
         if (!ayahNum || ayahNum < 1) return;
-        
         const targetElement = document.getElementById(`ayah-${ayahNum}`);
         if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            targetElement.style.backgroundColor = 'rgba(27, 94, 32, 0.15)';
+            targetElement.style.backgroundColor = 'rgba(206, 17, 38, 0.15)';
             setTimeout(() => { targetElement.style.backgroundColor = 'transparent'; }, 2500);
-        } else {
-            alert(`Ayah ${ayahNum} not found in this Surah.`);
-        }
+        } else { alert(`Ayah ${ayahNum} not found in this Surah.`); }
     }
 
-    ayahInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            jumpToAyah(parseInt(ayahInput.value));
-        }
-    });
+    ayahInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') jumpToAyah(parseInt(ayahInput.value)); });
 
     function renderBookmarks() {
-        if (bookmarks.length === 0) {
-            bookmarksContainer.innerHTML = '<li style="font-size:0.9rem; color:#888;">No saved verses yet.</li>';
-            return;
-        }
-        bookmarksContainer.innerHTML = bookmarks.map((b, i) => `
-            <li class="bookmark-item">
-                <span onclick="goToBookmark(${b.surah}, ${b.ayah})">${b.name} [${b.surah}:${b.ayah}]</span>
-                <button onclick="deleteBookmark(${i})">X</button>
-            </li>
-        `).join('');
+        if (bookmarks.length === 0) { bookmarksContainer.innerHTML = '<li style="font-size:0.9rem; color:var(--text-muted);">No saved verses yet.</li>'; return; }
+        bookmarksContainer.innerHTML = bookmarks.map((b, i) => `<li class="bookmark-item"><span onclick="goToBookmark(${b.surah}, ${b.ayah})">${b.name} [${b.surah}:${b.ayah}]</span><button onclick="deleteBookmark(${i})">X</button></li>`).join('');
     }
 
     window.addBookmark = function(surahNum, ayahNum, surahName) {
-        const exists = bookmarks.some(b => b.surah === surahNum && b.ayah === ayahNum);
-        if (!exists) {
+        if (!bookmarks.some(b => b.surah === surahNum && b.ayah === ayahNum)) {
             bookmarks.push({ surah: surahNum, ayah: ayahNum, name: surahName });
             localStorage.setItem('quran_bookmarks', JSON.stringify(bookmarks));
             renderBookmarks();
         }
     };
 
-    window.deleteBookmark = function(index) {
-        bookmarks.splice(index, 1);
-        localStorage.setItem('quran_bookmarks', JSON.stringify(bookmarks));
-        renderBookmarks();
-    };
+    window.deleteBookmark = function(index) { bookmarks.splice(index, 1); localStorage.setItem('quran_bookmarks', JSON.stringify(bookmarks)); renderBookmarks(); };
+    window.goToBookmark = async function(surahNum, ayahNum) { if (currentSurah != surahNum) { currentSurah = surahNum; surahSelect.value = surahNum; await loadSurahData(); } setTimeout(() => { jumpToAyah(ayahNum); }, 300); };
 
-    window.goToBookmark = async function(surahNum, ayahNum) {
-        if (currentSurah != surahNum) {
-            currentSurah = surahNum;
-            surahSelect.value = surahNum;
-            await loadSurahData();
-        }
-        setTimeout(() => { jumpToAyah(ayahNum); }, 300);
-    };
-
-    surahSelect.addEventListener('change', (e) => {
-        currentSurah = parseInt(e.target.value);
-        ayahInput.value = ''; 
-        loadSurahData();
-    });
-
-    scriptToggle.addEventListener('click', () => {
-        if (currentScript === 'uthmani') {
-            currentScript = 'indopak';
-            scriptToggle.textContent = 'Indo-Pak Script';
-            scriptToggle.classList.remove('active');
-        } else {
-            currentScript = 'uthmani';
-            scriptToggle.textContent = 'Uthmani (Madina)';
-            scriptToggle.classList.add('active');
-        }
-        loadSurahData();
-    });
-
-    translationToggle.addEventListener('click', () => {
-        showTranslation = !showTranslation;
-        if (showTranslation) {
-            translationToggle.textContent = 'Show Translation';
-            translationToggle.classList.add('active');
-        } else {
-            translationToggle.textContent = 'Arabic Only';
-            translationToggle.classList.remove('active');
-        }
-        loadSurahData();
-    });
+    surahSelect.addEventListener('change', (e) => { currentSurah = parseInt(e.target.value); ayahInput.value = ''; loadSurahData(); });
+    scriptToggle.addEventListener('click', () => { currentScript = (currentScript === 'uthmani') ? 'indopak' : 'uthmani'; scriptToggle.textContent = (currentScript === 'uthmani') ? 'Uthmani (Madina)' : 'Indo-Pak Script'; loadSurahData(); });
+    translationToggle.addEventListener('click', () => { showTranslation = !showTranslation; translationToggle.textContent = showTranslation ? 'Show Translation' : 'Arabic Only'; loadSurahData(); });
 
     populateSurahList();
     renderBookmarks();
 </script>
-
 </body>
 </html>
