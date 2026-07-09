@@ -28,19 +28,31 @@ body.dark-theme {
     --accent-bg: #151515;
 }
 
-/* Global Foundations */
+/* Global Foundations & Sticky Footer Engine Setup */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    margin: 0;
-    padding: 0;
     line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
+/* Base App Flex Container Push Wrapper */
+.app-content-wrapper {
+    flex: 1 0 auto;
+}
+
 /* ==========================================================================
-   HEADER NAVIGATION (Stark High-Contrast Bar)
+   HEADER NAVIGATION
    ========================================================================== */
 nav {
     display: flex;
@@ -48,7 +60,7 @@ nav {
     align-items: center;
     background-color: var(--nav-bg) !important;
     padding: 18px 40px;
-    border-bottom: 4px solid var(--islam-green); /* Baseline Brand Stripe */
+    border-bottom: 4px solid var(--islam-green);
     gap: 25px;
 }
 
@@ -91,11 +103,11 @@ nav a:hover {
 }
 
 /* ==========================================================================
-   AL-ISLAM / ALLAHSWORD INSPIRED PORTAL SYSTEM
+   PORTAL CONTENT PANELS
    ========================================================================== */
 .portal-layout {
     display: grid;
-    grid-template-columns: 1fr 340px; /* Split main/sidebar layout */
+    grid-template-columns: 1fr 340px;
     gap: 40px;
     max-width: 1400px;
     margin: 0 auto;
@@ -106,7 +118,6 @@ nav a:hover {
     .portal-layout { grid-template-columns: 1fr; }
 }
 
-/* Library Grid Indexing Sections */
 .resource-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -117,14 +128,13 @@ nav a:hover {
 .category-card {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-top: 4px solid transparent; /* Hidden by default per analysis notes */
+    border-top: 4px solid transparent;
     border-radius: 8px;
     padding: 24px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-    transition: border-top-color 0.25s ease, transform 0.2s ease;
+    transition: border-top-color 0.25s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Highlights Red On Hover ONLY */
 .category-card:hover {
     border-top-color: var(--nchs-red);
 }
@@ -165,13 +175,13 @@ nav a:hover {
     color: var(--nchs-red);
 }
 
-/* Informative Bulletin Sidebar Blocks */
 .sidebar-panel {
     background-color: var(--accent-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 25px;
     height: fit-content;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .schedule-item {
@@ -203,12 +213,16 @@ nav a:hover {
     font-weight: 700;
 }
 
-/* Footer Element */
+/* ==========================================================================
+   DYNAMIC STICKY FOOTER BLOCK (Matches Theme Perfectly)
+   ========================================================================== */
 footer {
+    flex-shrink: 0;
     text-align: center;
     padding: 40px;
-    margin-top: 80px;
-    background-color: var(--nav-bg);
-    color: #ffffff;
+    background-color: var(--card-bg); /* Dynamic matching background color */
+    color: var(--text-color);         /* High contrast visibility reading target text */
     border-top: 4px solid var(--nchs-red);
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
