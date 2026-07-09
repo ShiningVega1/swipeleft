@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Quran - Swipe Left</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
         .quran-container {
             display: grid;
-            grid-template-columns: 280px 1fr;
+            grid-template-columns: 300px 1fr;
             gap: 30px;
             margin-top: 20px;
         }
@@ -31,23 +35,40 @@
             margin-bottom: 8px;
             font-size: 0.9rem;
         }
-        .control-group select, .control-group button {
+        .control-group select, .control-group input, .control-group button {
             width: 100%;
             padding: 10px;
             border-radius: 6px;
             border: 1px solid #ccc;
-            background: white;
+            background: var(--bg-color, white);
+            color: var(--text-color, #222);
             font-size: 1rem;
             cursor: pointer;
+            box-sizing: border-box;
+        }
+        .nav-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 10px;
+        }
+        .size-controls {
+            display: flex;
+            gap: 10px;
+        }
+        .size-btn {
+            background: #e0e0e0;
+            color: #222 !important;
+            font-weight: bold;
         }
         .toggle-btn {
             background: #e0e0e0;
+            color: #222 !important;
             font-weight: bold;
             transition: all 0.2s ease;
         }
         .toggle-btn.active {
-            background: #1b5e20;
-            color: white;
+            background: #1b5e20 !important;
+            color: white !important;
             border-color: #1b5e20;
         }
         .bookmark-list {
@@ -80,7 +101,7 @@
             font-size: 0.8rem;
         }
         .reader-area {
-            background: white;
+            background: var(--card-bg, white);
             padding: 30px;
             border-radius: 8px;
             border: 1px solid #ddd;
@@ -93,8 +114,7 @@
             margin-bottom: 30px;
         }
         .bismillah {
-            font-size: 2rem;
-            font-family: "Amiri", Georgia, serif;
+            font-family: "Amiri Quran", serif;
             text-align: center;
             margin: 20px 0 40px 0;
             color: #1b5e20;
@@ -106,22 +126,28 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            transition: background-color 0.5s ease;
         }
         .arabic-text {
-            font-size: 2.2rem;
-            line-height: 2.5;
+            line-height: 2.3;
             text-align: right;
             direction: rtl;
             font-weight: normal;
         }
-        /* Class variations for precise script targeting */
-        .script-uthmani { font-family: "Amiri", Georgia, serif; }
-        .script-indopak { font-family: "Courier New", monospace; font-weight: bold; }
+        
+        /* Premium Font Styles Override */
+        .script-uthmani { 
+            font-family: "Amiri Quran", "Scheherazade New", serif; 
+        }
+        .script-indopak { 
+            font-family: "Scheherazade New", serif;
+            font-weight: 700;
+        }
         
         .translation-text {
             font-size: 1.1rem;
             line-height: 1.6;
-            color: #444;
+            color: var(--text-muted, #444);
         }
         .ayah-meta {
             display: flex;
@@ -153,17 +179,29 @@
     <a href="../action/index.html">Islam in Action</a>
     <a href="./index.html">Read Quran</a>
     <a href="../schedule.html">Schedule</a>
+    
+    <button id="theme-toggle">🌙</button>
 </nav>
 
 <div class="content">
     <h1>Interactive Quran Reader</h1>
-    <p>Select a Surah to read, switch writing scripts dynamically, toggle translations, and manage your custom bookmarks.</p>
 
     <div class="quran-container">
         <div class="controls-sidebar">
             <div class="control-group">
-                <label for="surah-select">Select Surah</label>
-                <select id="surah-select"></select>
+                <label>Navigate Location</label>
+                <div class="nav-row">
+                    <select id="surah-select"></select>
+                    <input type="number" id="ayah-input" min="1" placeholder="Ayah" title="Type verse number and press enter">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Arabic Text Size</label>
+                <div class="size-controls">
+                    <button class="size-btn" onclick="adjustFontSize(-0.3)">A-</button>
+                    <button class="size-btn" onclick="adjustFontSize(0.3)">A+</button>
+                </div>
             </div>
 
             <div class="control-group">
@@ -198,21 +236,47 @@
 </footer>
 
 <script>
-    // Configuration options
+    // Configuration states
     let currentSurah = 1;
-    let currentScript = 'uthmani'; // 'uthmani' or 'indopak'
+    let currentScript = 'uthmani'; 
     let showTranslation = true;
+    let arabicFontSize = 2.4; // Base layout startup scale (larger defaults)
     let bookmarks = JSON.parse(localStorage.getItem('quran_bookmarks')) || [];
 
-    // Elements
+    // UI elements hooks
     const surahSelect = document.getElementById('surah-select');
+    const ayahInput = document.getElementById('ayah-input');
     const scriptToggle = document.getElementById('script-toggle');
     const translationToggle = document.getElementById('translation-toggle');
     const quranDisplay = document.getElementById('quran-display');
     const surahTitleArea = document.getElementById('surah-title-area');
     const bookmarksContainer = document.getElementById('bookmarks-container');
 
-    // 1. Populate Surah dropdown select options list automatically
+    // 1. Theme Logic Integration
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.classList.toggle('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            themeToggle.textContent = isDark ? '☀️' : '🌙';
+        });
+        // Sync setting safely at load
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            themeToggle.textContent = '☀️';
+        }
+    }
+
+    // 2. Adjust Text Font Sizing Dynamically
+    window.adjustFontSize = function(amount) {
+        arabicFontSize = Math.max(1.5, Math.min(4.0, arabicFontSize + amount));
+        const targets = document.querySelectorAll('.arabic-text');
+        targets.forEach(el => el.style.fontSize = `${arabicFontSize}rem`);
+        const bismillah = document.querySelector('.bismillah');
+        if (bismillah) bismillah.style.fontSize = `${arabicFontSize - 0.2}rem`;
+    };
+
+    // 3. Populate Surah Dropdowns list automatically
     async function populateSurahList() {
         try {
             const res = await fetch('https://api.alquran.cloud/v1/surah');
@@ -221,28 +285,23 @@
                 `<option value="${s.number}">${s.number}. ${s.englishName} (${s.name})</option>`
             ).join('');
             
-            // Default load
             surahSelect.value = currentSurah;
             loadSurahData();
         } catch (err) {
-            quranDisplay.innerHTML = `<div class="loading" style="color:red">Failed to load the list of Surahs. Check your connection.</div>`;
+            quranDisplay.innerHTML = `<div class="loading" style="color:red">Failed to load the list of Surahs.</div>`;
         }
     }
 
-    // 2. Main Fetch Controller
+    // 4. Main Fetch Controller Engine
     async function loadSurahData() {
         quranDisplay.innerHTML = '<div class="loading">Fetching verses from database...</div>';
-        
-        // Pick proper Arabic edition tag mapping based on user UI options toggle selection
         const arabicEdition = currentScript === 'uthmani' ? 'quran-uthmani' : 'quran-indopak';
         
         try {
-            // Fetch Arabic text strings
             const responseArabic = await fetch(`https://api.alquran.cloud/v1/surah/${currentSurah}/${arabicEdition}`);
             const dataArabic = await responseArabic.json();
             
             let dataTranslation = null;
-            // Conditional fetch if translation output template injection is turned on
             if (showTranslation) {
                 const responseTrans = await fetch(`https://api.alquran.cloud/v1/surah/${currentSurah}/en.sahih`);
                 dataTranslation = await responseTrans.json();
@@ -250,13 +309,12 @@
 
             renderSurah(dataArabic.data, dataTranslation ? dataTranslation.data : null);
         } catch (error) {
-            quranDisplay.innerHTML = `<div class="loading" style="color:red">Error fetching Surah data. Please verify your connection options.</div>`;
+            quranDisplay.innerHTML = `<div class="loading" style="color:red">Error fetching Surah data.</div>`;
         }
     }
 
-    // 3. UI Generation engine matching layouts cleanly side by side
+    // 5. Interface Generation rendering loop
     function renderSurah(arabicData, translationData) {
-        // Render Top Header
         surahTitleArea.innerHTML = `
             <h2>Surah ${arabicData.englishName}</h2>
             <p style="color: #666; margin: 5px 0 0 0;">${arabicData.englishNameTranslation} • ${arabicData.numberOfAyahs} Verses</p>
@@ -264,17 +322,13 @@
 
         let htmlContent = '';
 
-        // Add standard baseline Bismillah banner safely if it's not Surah At-Tawbah (9)
-        // Strips structural prefix out safely from verse 1 if it already embeds it
         if (currentSurah != 1 && currentSurah != 9) {
-            htmlContent += `<div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
+            htmlContent += `<div class="bismillah" style="font-size: ${arabicFontSize - 0.2}rem">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
         }
 
-        // Loop over the verses arrays 
         arabicData.ayahs.forEach((ayah, index) => {
             let cleanText = ayah.text;
             
-            // Clean up text if it embeds Bismillah prefix in verse 1 to prevent duplication
             if (currentSurah != 1 && currentSurah != 9 && index === 0) {
                 if (cleanText.startsWith("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ")) {
                     cleanText = cleanText.replace("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ", "");
@@ -287,7 +341,7 @@
 
             htmlContent += `
                 <div class="ayah-card" id="ayah-${ayah.numberInSurah}">
-                    <div class="arabic-text ${fontClass}">${cleanText} <span style="color: #1b5e20; font-size: 1.5rem;">﴿${ayah.numberInSurah}﴾</span></div>
+                    <div class="arabic-text ${fontClass}" style="font-size: ${arabicFontSize}rem">${cleanText} <span style="color: #1b5e20; font-family: sans-serif; font-size: 1.4rem; font-weight: bold; vertical-align: middle;">﴿${ayah.numberInSurah}﴾</span></div>
                     ${showTranslation && translationData ? `<div class="translation-text">${translationData.ayahs[index].text}</div>` : ''}
                     <div class="ayah-meta">
                         <span>Ref: ${currentSurah}:${ayah.numberInSurah}</span>
@@ -300,7 +354,27 @@
         quranDisplay.innerHTML = htmlContent;
     }
 
-    // 4. Bookmark array functions
+    // 6. Direct Verse Jumper / Navigation logic
+    async function jumpToAyah(ayahNum) {
+        if (!ayahNum || ayahNum < 1) return;
+        
+        const targetElement = document.getElementById(`ayah-${ayahNum}`);
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetElement.style.backgroundColor = 'rgba(27, 94, 32, 0.15)';
+            setTimeout(() => { targetElement.style.backgroundColor = 'transparent'; }, 2500);
+        } else {
+            alert(`Ayah ${ayahNum} not found in this Surah.`);
+        }
+    }
+
+    ayahInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            jumpToAyah(parseInt(ayahInput.value));
+        }
+    });
+
+    // 7. Bookmarks Array management controllers
     function renderBookmarks() {
         if (bookmarks.length === 0) {
             bookmarksContainer.innerHTML = '<li style="font-size:0.85rem; color:#888;">No saved verses yet.</li>';
@@ -315,7 +389,6 @@
     }
 
     window.addBookmark = function(surahNum, ayahNum, surahName) {
-        // Prevent duplicate checks
         const exists = bookmarks.some(b => b.surah === surahNum && b.ayah === ayahNum);
         if (!exists) {
             bookmarks.push({ surah: surahNum, ayah: ayahNum, name: surahName });
@@ -336,18 +409,13 @@
             surahSelect.value = surahNum;
             await loadSurahData();
         }
-        // Smooth scroll movement window container
-        const targetElement = document.getElementById(`ayah-${ayahNum}`);
-        if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            targetElement.style.backgroundColor = 'rgba(27, 94, 32, 0.1)';
-            setTimeout(() => { targetElement.style.backgroundColor = 'transparent'; }, 2500);
-        }
+        setTimeout(() => { jumpToAyah(ayahNum); }, 300);
     };
 
-    // 5. Event Binding Click Handlers
+    // 8. Event Binding listeners
     surahSelect.addEventListener('change', (e) => {
         currentSurah = parseInt(e.target.value);
+        ayahInput.value = ''; // Reset target container view index
         loadSurahData();
     });
 
@@ -376,7 +444,7 @@
         loadSurahData();
     });
 
-    // Run initialization scripts
+    // Fire application engines
     populateSurahList();
     renderBookmarks();
 </script>
