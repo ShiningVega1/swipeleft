@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quran - Swipe Left</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .quran-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            .quran-container { grid-template-columns: 1fr; }
+        }
+        .controls-sidebar {
+            background: var(--card-bg, #f9f9f9);
+            padding: 20px;
+            border-radius: 8px;
+            height: fit-content;
+            border: 1px solid #ddd;
+        }
+        .control-group {
+            margin-bottom: 20px;
+        }
+        .control-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        .control-group select, .control-group button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            background: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .toggle-btn {
+            background: #e0e0e0;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        .toggle-btn.active {
+            background: #1b5e20;
+            color: white;
+            border-color: #1b5e20;
+        }
+        .bookmark-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+        .bookmark-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            background: rgba(0,0,0,0.04);
+            margin-bottom: 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        .bookmark-item span {
+            cursor: pointer;
+            color: #1b5e20;
+            font-weight: bold;
+        }
+        .bookmark-item button {
+            width: auto;
+            padding: 2px 6px;
+            background: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        .reader-area {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            min-height: 400px;
+        }
+        .surah-header {
+            text-align: center;
+            border-bottom: 2px solid #1b5e20;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .bismillah {
+            font-size: 2rem;
+            font-family: "Amiri", Georgia, serif;
+            text-align: center;
+            margin: 20px 0 40px 0;
+            color: #1b5e20;
+            direction: rtl;
+        }
+        .ayah-card {
+            padding: 25px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .arabic-text {
+            font-size: 2.2rem;
+            line-height: 2.5;
+            text-align: right;
+            direction: rtl;
+            font-weight: normal;
+        }
+        /* Class variations for precise script targeting */
+        .script-uthmani { font-family: "Amiri", Georgia, serif; }
+        .script-indopak { font-family: "Courier New", monospace; font-weight: bold; }
+        
+        .translation-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #444;
+        }
+        .ayah-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #888;
+            align-items: center;
+        }
+        .action-link {
+            color: #1b5e20;
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        .loading {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            padding: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="../index.html">Home</a>
+    <a href="../khutbahs/index.html">Khutbah Library</a>
+    <a href="../guides/index.html">Teaching Guides</a>
+    <a href="../action/index.html">Islam in Action</a>
+    <a href="./index.html">Read Quran</a>
+    <a href="../schedule.html">Schedule</a>
+</nav>
+
+<div class="content">
+    <h1>Interactive Quran Reader</h1>
+    <p>Select a Surah to read, switch writing scripts dynamically, toggle translations, and manage your custom bookmarks.</p>
+
+    <div class="quran-container">
+        <div class="controls-sidebar">
+            <div class="control-group">
+                <label for="surah-select">Select Surah</label>
+                <select id="surah-select"></select>
+            </div>
+
+            <div class="control-group">
+                <label>Writing Script</label>
+                <button id="script-toggle" class="toggle-btn active">Uthmani (Madina)</button>
+            </div>
+
+            <div class="control-group">
+                <label>English Translation</label>
+                <button id="translation-toggle" class="toggle-btn active">Show Translation</button>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
+            
+            <h3>Bookmarks</h3>
+            <ul id="bookmarks-container" class="bookmark-list"></ul>
+        </div>
+
+        <div class="reader-area">
+            <div id="surah-title-area" class="surah-header">
+                <h2>Select a chapter to begin loading</h2>
+            </div>
+            <div id="quran-display">
+                <div class="loading">Please choose a Surah from the sidebar configuration menu.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    © Swipe Left
+</footer>
+
+<script>
+    // Configuration options
+    let currentSurah = 1;
+    let currentScript = 'uthmani'; // 'uthmani' or 'indopak'
+    let showTranslation = true;
+    let bookmarks = JSON.parse(localStorage.getItem('quran_bookmarks')) || [];
+
+    // Elements
+    const surahSelect = document.getElementById('surah-select');
+    const scriptToggle = document.getElementById('script-toggle');
+    const translationToggle = document.getElementById('translation-toggle');
+    const quranDisplay = document.getElementById('quran-display');
+    const surahTitleArea = document.getElementById('surah-title-area');
+    const bookmarksContainer = document.getElementById('bookmarks-container');
+
+    // 1. Populate Surah dropdown select options list automatically
+    async function populateSurahList() {
+        try {
+            const res = await fetch('https://api.alquran.cloud/v1/surah');
+            const data = await res.json();
+            surahSelect.innerHTML = data.data.map(s => 
+                `<option value="${s.number}">${s.number}. ${s.englishName} (${s.name})</option>`
+            ).join('');
+            
+            // Default load
+            surahSelect.value = currentSurah;
+            loadSurahData();
+        } catch (err) {
+            quranDisplay.innerHTML = `<div class="loading" style="color:red">Failed to load the list of Surahs. Check your connection.</div>`;
+        }
+    }
+
+    // 2. Main Fetch Controller
+    async function loadSurahData() {
+        quranDisplay.innerHTML = '<div class="loading">Fetching verses from database...</div>';
+        
+        // Pick proper Arabic edition tag mapping based on user UI options toggle selection
+        const arabicEdition = currentScript === 'uthmani' ? 'quran-uthmani' : 'quran-indopak';
+        
+        try {
+            // Fetch Arabic text strings
+            const responseArabic = await fetch(`https://api.alquran.cloud/v1/surah/${currentSurah}/${arabicEdition}`);
+            const dataArabic = await responseArabic.json();
+            
+            let dataTranslation = null;
+            // Conditional fetch if translation output template injection is turned on
+            if (showTranslation) {
+                const responseTrans = await fetch(`https://api.alquran.cloud/v1/surah/${currentSurah}/en.sahih`);
+                dataTranslation = await responseTrans.json();
+            }
+
+            renderSurah(dataArabic.data, dataTranslation ? dataTranslation.data : null);
+        } catch (error) {
+            quranDisplay.innerHTML = `<div class="loading" style="color:red">Error fetching Surah data. Please verify your connection options.</div>`;
+        }
+    }
+
+    // 3. UI Generation engine matching layouts cleanly side by side
+    function renderSurah(arabicData, translationData) {
+        // Render Top Header
+        surahTitleArea.innerHTML = `
+            <h2>Surah ${arabicData.englishName}</h2>
+            <p style="color: #666; margin: 5px 0 0 0;">${arabicData.englishNameTranslation} • ${arabicData.numberOfAyahs} Verses</p>
+        `;
+
+        let htmlContent = '';
+
+        // Add standard baseline Bismillah banner safely if it's not Surah At-Tawbah (9)
+        // Strips structural prefix out safely from verse 1 if it already embeds it
+        if (currentSurah != 1 && currentSurah != 9) {
+            htmlContent += `<div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
+        }
+
+        // Loop over the verses arrays 
+        arabicData.ayahs.forEach((ayah, index) => {
+            let cleanText = ayah.text;
+            
+            // Clean up text if it embeds Bismillah prefix in verse 1 to prevent duplication
+            if (currentSurah != 1 && currentSurah != 9 && index === 0) {
+                if (cleanText.startsWith("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ")) {
+                    cleanText = cleanText.replace("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ", "");
+                } else if (cleanText.startsWith("بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ")) {
+                    cleanText = cleanText.replace("بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ", "");
+                }
+            }
+
+            const fontClass = currentScript === 'uthmani' ? 'script-uthmani' : 'script-indopak';
+
+            htmlContent += `
+                <div class="ayah-card" id="ayah-${ayah.numberInSurah}">
+                    <div class="arabic-text ${fontClass}">${cleanText} <span style="color: #1b5e20; font-size: 1.5rem;">﴿${ayah.numberInSurah}﴾</span></div>
+                    ${showTranslation && translationData ? `<div class="translation-text">${translationData.ayahs[index].text}</div>` : ''}
+                    <div class="ayah-meta">
+                        <span>Ref: ${currentSurah}:${ayah.numberInSurah}</span>
+                        <span class="action-link" onclick="addBookmark(${currentSurah}, ${ayah.numberInSurah}, '${arabicData.englishName}')">🔖 Bookmark</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        quranDisplay.innerHTML = htmlContent;
+    }
+
+    // 4. Bookmark array functions
+    function renderBookmarks() {
+        if (bookmarks.length === 0) {
+            bookmarksContainer.innerHTML = '<li style="font-size:0.85rem; color:#888;">No saved verses yet.</li>';
+            return;
+        }
+        bookmarksContainer.innerHTML = bookmarks.map((b, i) => `
+            <li class="bookmark-item">
+                <span onclick="goToBookmark(${b.surah}, ${b.ayah})">${b.name} [${b.surah}:${b.ayah}]</span>
+                <button onclick="deleteBookmark(${i})">X</button>
+            </li>
+        `).join('');
+    }
+
+    window.addBookmark = function(surahNum, ayahNum, surahName) {
+        // Prevent duplicate checks
+        const exists = bookmarks.some(b => b.surah === surahNum && b.ayah === ayahNum);
+        if (!exists) {
+            bookmarks.push({ surah: surahNum, ayah: ayahNum, name: surahName });
+            localStorage.setItem('quran_bookmarks', JSON.stringify(bookmarks));
+            renderBookmarks();
+        }
+    };
+
+    window.deleteBookmark = function(index) {
+        bookmarks.splice(index, 1);
+        localStorage.setItem('quran_bookmarks', JSON.stringify(bookmarks));
+        renderBookmarks();
+    };
+
+    window.goToBookmark = async function(surahNum, ayahNum) {
+        if (currentSurah != surahNum) {
+            currentSurah = surahNum;
+            surahSelect.value = surahNum;
+            await loadSurahData();
+        }
+        // Smooth scroll movement window container
+        const targetElement = document.getElementById(`ayah-${ayahNum}`);
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetElement.style.backgroundColor = 'rgba(27, 94, 32, 0.1)';
+            setTimeout(() => { targetElement.style.backgroundColor = 'transparent'; }, 2500);
+        }
+    };
+
+    // 5. Event Binding Click Handlers
+    surahSelect.addEventListener('change', (e) => {
+        currentSurah = parseInt(e.target.value);
+        loadSurahData();
+    });
+
+    scriptToggle.addEventListener('click', () => {
+        if (currentScript === 'uthmani') {
+            currentScript = 'indopak';
+            scriptToggle.textContent = 'Indo-Pak Script';
+            scriptToggle.classList.remove('active');
+        } else {
+            currentScript = 'uthmani';
+            scriptToggle.textContent = 'Uthmani (Madina)';
+            scriptToggle.classList.add('active');
+        }
+        loadSurahData();
+    });
+
+    translationToggle.addEventListener('click', () => {
+        showTranslation = !showTranslation;
+        if (showTranslation) {
+            translationToggle.textContent = 'Show Translation';
+            translationToggle.classList.add('active');
+        } else {
+            translationToggle.textContent = 'Arabic Only';
+            translationToggle.classList.remove('active');
+        }
+        loadSurahData();
+    });
+
+    // Run initialization scripts
+    populateSurahList();
+    renderBookmarks();
+</script>
+
+</body>
+</html>
