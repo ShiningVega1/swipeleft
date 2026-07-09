@@ -1,62 +1,84 @@
 /* ==========================================================================
-   GLOBAL THEME CONFIGURATION (YouTube Light / Dark Mode Style)
+   MSA COMMUNITY THEME DESIGN (Palestine Colors & NCHS Ironmen Elements)
    ========================================================================== */
 :root {
     --bg-color: #ffffff;
-    --text-color: #222222;
-    --card-bg: #f9f9f9;
+    --text-color: #1a1a1a;
+    --card-bg: #ffffff;
     --text-muted: #555555;
-    --nav-bg: #f1f1f1;         /* Light mode header color */
-    --nav-link-color: #1b5e20; /* Primary brand green links */
-    --border-color: #dddddd;
+    
+    /* Branding Palette */
+    --nchs-red: #ce1126;       /* Ironmen Red / Pan-Arab Crimson */
+    --islam-green: #006633;    /* Traditional Deep Olive Green */
+    --nav-bg: #111111;         /* Stark Black Header */
+    --nav-link: #ffffff;
+    --border-color: #e0e0e0;
+    --accent-bg: #f9f9f9;
 }
 
 body.dark-theme {
-    --bg-color: #0f0f0f;       /* True YouTube Dark background */
-    --text-color: #f1f1f1;     /* Crisp white text layout */
-    --card-bg: #1f1f1f;        /* Matte dark grey for inner panels */
-    --text-muted: #aaaaaa;     /* Soft secondary text */
-    --nav-bg: #212121;         /* Dark mode header background block */
-    --nav-link-color: #388e3c; /* Bright high-contrast green links */
-    --border-color: #333333;
+    --bg-color: #0d0d0d;       /* Midnight background */
+    --text-color: #f1f1f1;     /* Clear crisp white text */
+    --card-bg: #1a1a1a;        /* Deep carbon panels */
+    --text-muted: #aaaaaa;     /* Soft slate text descriptors */
+    --nchs-red: #ff3344;       /* High-visibility contrast red */
+    --islam-green: #00cc66;    /* Bright electric emerald green */
+    --nav-bg: #000000;         /* True pitch black */
+    --border-color: #2a2a2a;
+    --accent-bg: #151515;
 }
 
-/* Smooth globally applied style transitions */
-body, nav, .controls-sidebar, .reader-area, .ayah-card, a, button, select, input {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-/* Baseline HTML elements targeting variables */
+/* Global Foundations */
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 /* ==========================================================================
-   HEADER / GLOBAL NAVIGATION LAYOUT 
+   HEADER NAVIGATION (Stark High-Contrast Bar)
    ========================================================================== */
 nav {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     background-color: var(--nav-bg) !important;
-    padding: 15px 30px;
-    border-bottom: 1px solid var(--border-color);
+    padding: 18px 40px;
+    border-bottom: 4px solid var(--nchs-red); /* NCHS Accent Line Divider */
+    gap: 25px;
+}
+
+.nav-brand {
+    color: #ffffff !important;
+    font-weight: 900;
+    font-size: 1.4rem;
+    text-decoration: none;
+    letter-spacing: 1px;
+    border-right: 2px solid var(--border-color);
+    padding-right: 20px;
+}
+
+.nav-links {
+    display: flex;
     gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 nav a {
-    color: var(--nav-link-color) !important;
+    color: var(--nav-link) !important;
     text-decoration: none;
-    font-weight: bold;
-    font-size: 1.05rem;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.2s ease;
 }
 
 nav a:hover {
-    color: var(--text-color) !important;
+    color: var(--islam-green) !important;
 }
 
 #theme-toggle {
@@ -64,28 +86,113 @@ nav a:hover {
     border: none;
     font-size: 1.4rem;
     cursor: pointer;
+    margin-left: auto;
     padding: 0;
-    margin-left: auto; /* Pushes toggle button cleanly to the right */
 }
 
 /* ==========================================================================
-   COMMON PAGE CONTAINERS
+   AL-ISLAM / ALLAHSWORD INSPIRED PORTAL SYSTEM
    ========================================================================== */
-.content {
-    padding: 40px 20px;
+.portal-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px; /* Al-Islam style split main/sidebar */
+    gap: 40px;
+    max-width: 1400px;
     margin: 0 auto;
-    max-width: 1200px;
+    padding: 40px 20px;
 }
 
-h1, h2, h3 {
+@media (max-width: 992px) {
+    .portal-layout { grid-template-columns: 1fr; }
+}
+
+/* Library Grid Indexing Sections */
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.category-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-top: 4px solid var(--islam-green); /* Green Top border strip */
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.category-card.featured {
+    border-top-color: var(--nchs-red); /* Red alternative flag style */
+}
+
+.category-card h3 {
+    margin: 0 0 12px 0;
+    font-size: 1.3rem;
+}
+
+.category-card h3 a {
     color: var(--text-color);
+    text-decoration: none;
 }
 
+.category-card h3 a:hover {
+    color: var(--islam-green);
+}
+
+.category-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-card ul li {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.category-card ul li a {
+    color: var(--nchs-red);
+    text-decoration: none;
+}
+
+.category-card ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Informative Bulletin Sidebar Blocks */
+.sidebar-panel {
+    background-color: var(--accent-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+    height: fit-content;
+}
+
+.schedule-item {
+    border-left: 3px solid var(--islam-green);
+    padding-left: 15px;
+    margin-bottom: 20px;
+}
+
+.schedule-item.urgent {
+    border-left-color: var(--nchs-red);
+}
+
+.schedule-date {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--nchs-red);
+    text-transform: uppercase;
+}
+
+/* Footer Accent Structure */
 footer {
     text-align: center;
-    padding: 30px;
-    margin-top: 60px;
-    border-top: 1px solid var(--border-color);
-    color: var(--text-muted);
-    font-size: 0.9rem;
+    padding: 40px;
+    margin-top: 80px;
+    background-color: var(--nav-bg);
+    color: #ffffff;
+    border-top: 4px solid var(--islam-green);
 }
