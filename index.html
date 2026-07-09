@@ -3,36 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Swipe Left - Home</title>
+    <title>Normal Community HS MSA - Knowledge Portal</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
 <nav>
-    <a href="/">Home</a>
-    <a href="/khutbahs/">Khutbah Library</a>
-    <a href="/guides/">Teaching Guides</a>
-    <a href="/action/">Islam in Action</a>
-    <a href="/quran/">Read Quran</a>
-    <a href="/schedule.html">Schedule</a>
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
-
+    <a href="/" class="nav-brand">NCHS MSA</a>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/khutbahs/">Khutbah Library</a>
+        <a href="/guides/">Teaching Guides</a>
+        <a href="/action/">Islam in Action</a>
+        <a href="/quran/">Read Quran</a>
+        <a href="/schedule.html">MSA Schedule</a>
+        <a href="/about.html">About</a>
+    </div>
     <button id="theme-toggle">🌙</button>
 </nav>
 
-<div class="content">
-    <h1>Welcome to Swipe Left</h1>
-    <p>A digital archive and community toolkit designed for resources, interactive guides, and study materials.</p>
-    
-    </div>
+<div class="portal-layout">
+    <main>
+        <div style="margin-bottom: 40px;">
+            <h1 style="font-size: 2.5rem; margin: 0 0 10px 0;">Muslim Student Association Portal</h1>
+            <p style="font-size: 1.15rem; color: var(--text-muted); margin: 0;">Providing resources, textual verification index guides, and local library data for students at Normal Community High School.</p>
+        </div>
+
+        <h2 style="border-bottom: 2px solid var(--border-color); padding-bottom: 10px;">Explore Islamic Resources</h2>
+        
+        <div class="resource-grid">
+            <div class="category-card featured">
+                <h3><a href="/quran/">Interactive Holy Quran</a></h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Read the divine text online with fluid translation toggling options.</p>
+                <ul>
+                    <li><a href="/quran/">• Uthmani Madina Script</a></li>
+                    <li><a href="/quran/">• Indo-Pak Font Script Style</a></li>
+                </ul>
+            </div>
+
+            <div class="category-card">
+                <h3><a href="/khutbahs/">Friday Khutbah Library</a></h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Complete collection of written sermons for youth delivery.</p>
+                <ul>
+                    <li><a href="/khutbahs/">• The Gift of Salah</a></li>
+                    <li><a href="/khutbahs/">• Sincerity and Minor Shirk</a></li>
+                    <li><a href="/khutbahs/">• The Battle of Badr Reflection</a></li>
+                </ul>
+            </div>
+
+            <div class="category-card">
+                <h3><a href="/guides/">MSA Teaching Guides</a></h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Step-by-step structural guidelines for presentations and halaqahs.</p>
+                <ul>
+                    <li><a href="/guides/">• Establishing Haya in School</a></li>
+                    <li><a href="/guides/">• Prayer in Summer Break</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <aside>
+        <div class="sidebar-panel">
+            <h3 style="margin-top: 0; border-bottom: 2px solid var(--nchs-red); padding-bottom: 8px;">NCHS MSA Schedule</h3>
+            
+            <div class="schedule-item urgent">
+                <div class="schedule-date">Next Friday Jummah</div>
+                <div style="font-weight: bold;">Prayer Room 104</div>
+                <div style="font-size: 0.9rem; color: var(--text-muted);">Starts at 11:45 AM during Lunch Blocks</div>
+            </div>
+
+            <div class="schedule-item">
+                <div class="schedule-date">Weekly Halaqah Meeting</div>
+                <div style="font-weight: bold;">After School Discussion</div>
+                <div style="font-size: 0.9rem; color: var(--text-muted);">Every Wednesday at 3:40 PM in Room 212</div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;">
+            <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin: 0;">Proudly Serving the Youth of Normal, Illinois.</p>
+        </div>
+    </aside>
+</div>
 
 <footer>
-    © Swipe Left
+    Normal Community High School MSA © All Rights Reserved.
 </footer>
 
 <script>
-    // Handles dark/light setting persistence natively directly inside your documents
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
@@ -41,7 +97,6 @@
             themeToggle.textContent = isDark ? '☀️' : '🌙';
         });
         
-        // Load initial setting on layout startup
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-theme');
             themeToggle.textContent = '☀️';
