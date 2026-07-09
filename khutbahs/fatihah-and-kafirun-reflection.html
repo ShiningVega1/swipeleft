@@ -74,6 +74,24 @@
 </footer>
 
 <script src="../theme.js"></script>
-
+<script>
+    // Paste this block at the bottom of all sub-pages to link the theme toggle safely
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.classList.toggle('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            themeToggle.textContent = isDark ? '☀️' : '🌙';
+        });
+        
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            themeToggle.textContent = '☀️';
+        } else {
+            document.body.classList.remove('dark-theme');
+            themeToggle.textContent = '🌙';
+        }
+    }
+</script>
 </body>
 </html>
