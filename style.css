@@ -237,3 +237,25 @@ footer {
         width: 100%;
     }
 }
+
+/* Ensure the theme variables exist and swap automatically */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #222222;
+    --card-bg: #f9f9f9;
+    --text-muted: #555555;
+}
+
+body.dark-theme {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --text-muted: #aaaaaa;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* Smooth background transitions so it doesn't snap harshly */
+body, .controls-sidebar, .reader-area, .ayah-card {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
