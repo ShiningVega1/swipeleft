@@ -10,55 +10,64 @@
     <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
+        /* MAXIMIZED MAIN CONTAINER */
         .quran-container {
             display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 30px;
-            margin-top: 20px;
+            grid-template-columns: 340px 1fr; /* Widened menu panel */
+            gap: 35px;
+            margin-top: 25px;
+            max-width: 100%; /* Spans full horizontal container space */
         }
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .quran-container { grid-template-columns: 1fr; }
         }
+
+        /* WIDER CONTROL SIDEBAR */
         .controls-sidebar {
             background: var(--card-bg, #f9f9f9);
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 12px;
             height: fit-content;
             border: 1px solid #ddd;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
         .control-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         .control-group label {
             display: block;
             font-weight: bold;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted, #555);
         }
         .control-group select, .control-group input, .control-group button {
             width: 100%;
-            padding: 10px;
-            border-radius: 6px;
+            padding: 12px 14px; /* Bigger touch targets */
+            border-radius: 8px;
             border: 1px solid #ccc;
             background: var(--bg-color, white);
             color: var(--text-color, #222);
-            font-size: 1rem;
+            font-size: 1.05rem;
             cursor: pointer;
             box-sizing: border-box;
         }
         .nav-row {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 10px;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 12px;
         }
         .size-controls {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
         .size-btn {
             background: #e0e0e0;
             color: #222 !important;
             font-weight: bold;
+            font-size: 1.2rem !important;
         }
         .toggle-btn {
             background: #e0e0e0;
@@ -74,17 +83,17 @@
         .bookmark-list {
             list-style: none;
             padding: 0;
-            margin: 10px 0 0 0;
+            margin: 15px 0 0 0;
         }
         .bookmark-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 10px;
+            padding: 10px 14px;
             background: rgba(0,0,0,0.04);
-            margin-bottom: 6px;
-            border-radius: 4px;
-            font-size: 0.9rem;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            font-size: 0.95rem;
         }
         .bookmark-item span {
             cursor: pointer;
@@ -93,49 +102,55 @@
         }
         .bookmark-item button {
             width: auto;
-            padding: 2px 6px;
+            padding: 4px 8px;
             background: #d32f2f;
             color: white;
             border: none;
             border-radius: 4px;
             font-size: 0.8rem;
         }
+
+        /* MASSIVE EMBOLDENED READ BOX PANELS */
         .reader-area {
             background: var(--card-bg, white);
-            padding: 30px;
-            border-radius: 8px;
+            padding: 45px 50px; /* Highly spacious internal reading pads */
+            border-radius: 14px;
             border: 1px solid #ddd;
-            min-height: 400px;
+            min-height: 600px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
         .surah-header {
             text-align: center;
-            border-bottom: 2px solid #1b5e20;
-            padding-bottom: 15px;
-            margin-bottom: 30px;
+            border-bottom: 3px solid #1b5e20;
+            padding-bottom: 25px;
+            margin-bottom: 40px;
+        }
+        .surah-header h2 {
+            font-size: 2.2rem;
+            margin: 0;
         }
         .bismillah {
             font-family: "Amiri Quran", serif;
             text-align: center;
-            margin: 20px 0 40px 0;
+            margin: 30px 0 50px 0;
             color: #1b5e20;
             direction: rtl;
         }
         .ayah-card {
-            padding: 25px 0;
+            padding: 40px 0; /* Significant separation between lines */
             border-bottom: 1px solid #eee;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 22px;
             transition: background-color 0.5s ease;
         }
         .arabic-text {
-            line-height: 2.3;
+            line-height: 2.5;
             text-align: right;
             direction: rtl;
             font-weight: normal;
         }
         
-        /* Premium Font Styles Override */
         .script-uthmani { 
             font-family: "Amiri Quran", "Scheherazade New", serif; 
         }
@@ -145,16 +160,18 @@
         }
         
         .translation-text {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: var(--text-muted, #444);
+            font-size: 1.25rem; /* Upgraded baseline scale translation */
+            line-height: 1.8;
+            color: var(--text-muted, #333);
+            max-width: 90%; /* Keeps text line lengths crisp and easy to scan */
         }
         .ayah-meta {
             display: flex;
-            gap: 15px;
-            font-size: 0.85rem;
+            gap: 20px;
+            font-size: 0.9rem;
             color: #888;
             align-items: center;
+            margin-top: 5px;
         }
         .action-link {
             color: #1b5e20;
@@ -164,9 +181,9 @@
         }
         .loading {
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             color: #666;
-            padding: 5px 0;
+            padding: 40px 0;
         }
     </style>
 </head>
@@ -179,11 +196,10 @@
     <a href="../action/index.html">Islam in Action</a>
     <a href="./index.html">Read Quran</a>
     <a href="../schedule.html">Schedule</a>
-    
     <button id="theme-toggle">🌙</button>
 </nav>
 
-<div class="content">
+<div class="content" style="max-width: 1400px; margin: 0 auto; padding: 0 20px;">
     <h1>Interactive Quran Reader</h1>
 
     <div class="quran-container">
@@ -214,7 +230,7 @@
                 <button id="translation-toggle" class="toggle-btn active">Show Translation</button>
             </div>
 
-            <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
+            <hr style="border: 0; border-top: 1px solid #ddd; margin: 25px 0;">
             
             <h3>Bookmarks</h3>
             <ul id="bookmarks-container" class="bookmark-list"></ul>
@@ -236,14 +252,12 @@
 </footer>
 
 <script>
-    // Configuration states
     let currentSurah = 1;
     let currentScript = 'uthmani'; 
     let showTranslation = true;
-    let arabicFontSize = 2.4; // Base layout startup scale (larger defaults)
+    let arabicFontSize = 2.8; // Boosted starting base font point scale
     let bookmarks = JSON.parse(localStorage.getItem('quran_bookmarks')) || [];
 
-    // UI elements hooks
     const surahSelect = document.getElementById('surah-select');
     const ayahInput = document.getElementById('ayah-input');
     const scriptToggle = document.getElementById('script-toggle');
@@ -252,7 +266,7 @@
     const surahTitleArea = document.getElementById('surah-title-area');
     const bookmarksContainer = document.getElementById('bookmarks-container');
 
-    // 1. Theme Logic Integration
+    // Theme Engine Hook
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
@@ -260,23 +274,20 @@
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             themeToggle.textContent = isDark ? '☀️' : '🌙';
         });
-        // Sync setting safely at load
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-theme');
             themeToggle.textContent = '☀️';
         }
     }
 
-    // 2. Adjust Text Font Sizing Dynamically
     window.adjustFontSize = function(amount) {
-        arabicFontSize = Math.max(1.5, Math.min(4.0, arabicFontSize + amount));
+        arabicFontSize = Math.max(1.8, Math.min(5.0, arabicFontSize + amount));
         const targets = document.querySelectorAll('.arabic-text');
         targets.forEach(el => el.style.fontSize = `${arabicFontSize}rem`);
         const bismillah = document.querySelector('.bismillah');
         if (bismillah) bismillah.style.fontSize = `${arabicFontSize - 0.2}rem`;
     };
 
-    // 3. Populate Surah Dropdowns list automatically
     async function populateSurahList() {
         try {
             const res = await fetch('https://api.alquran.cloud/v1/surah');
@@ -292,7 +303,6 @@
         }
     }
 
-    // 4. Main Fetch Controller Engine
     async function loadSurahData() {
         quranDisplay.innerHTML = '<div class="loading">Fetching verses from database...</div>';
         const arabicEdition = currentScript === 'uthmani' ? 'quran-uthmani' : 'quran-indopak';
@@ -313,11 +323,10 @@
         }
     }
 
-    // 5. Interface Generation rendering loop
     function renderSurah(arabicData, translationData) {
         surahTitleArea.innerHTML = `
             <h2>Surah ${arabicData.englishName}</h2>
-            <p style="color: #666; margin: 5px 0 0 0;">${arabicData.englishNameTranslation} • ${arabicData.numberOfAyahs} Verses</p>
+            <p style="color: #666; margin: 8px 0 0 0; font-size: 1.1rem;">${arabicData.englishNameTranslation} • ${arabicData.numberOfAyahs} Verses</p>
         `;
 
         let htmlContent = '';
@@ -341,7 +350,7 @@
 
             htmlContent += `
                 <div class="ayah-card" id="ayah-${ayah.numberInSurah}">
-                    <div class="arabic-text ${fontClass}" style="font-size: ${arabicFontSize}rem">${cleanText} <span style="color: #1b5e20; font-family: sans-serif; font-size: 1.4rem; font-weight: bold; vertical-align: middle;">﴿${ayah.numberInSurah}﴾</span></div>
+                    <div class="arabic-text ${fontClass}" style="font-size: ${arabicFontSize}rem">${cleanText} <span style="color: #1b5e20; font-family: sans-serif; font-size: 1.6rem; font-weight: bold; vertical-align: middle;">﴿${ayah.numberInSurah}﴾</span></div>
                     ${showTranslation && translationData ? `<div class="translation-text">${translationData.ayahs[index].text}</div>` : ''}
                     <div class="ayah-meta">
                         <span>Ref: ${currentSurah}:${ayah.numberInSurah}</span>
@@ -354,7 +363,6 @@
         quranDisplay.innerHTML = htmlContent;
     }
 
-    // 6. Direct Verse Jumper / Navigation logic
     async function jumpToAyah(ayahNum) {
         if (!ayahNum || ayahNum < 1) return;
         
@@ -374,10 +382,9 @@
         }
     });
 
-    // 7. Bookmarks Array management controllers
     function renderBookmarks() {
         if (bookmarks.length === 0) {
-            bookmarksContainer.innerHTML = '<li style="font-size:0.85rem; color:#888;">No saved verses yet.</li>';
+            bookmarksContainer.innerHTML = '<li style="font-size:0.9rem; color:#888;">No saved verses yet.</li>';
             return;
         }
         bookmarksContainer.innerHTML = bookmarks.map((b, i) => `
@@ -412,10 +419,9 @@
         setTimeout(() => { jumpToAyah(ayahNum); }, 300);
     };
 
-    // 8. Event Binding listeners
     surahSelect.addEventListener('change', (e) => {
         currentSurah = parseInt(e.target.value);
-        ayahInput.value = ''; // Reset target container view index
+        ayahInput.value = ''; 
         loadSurahData();
     });
 
@@ -444,7 +450,6 @@
         loadSurahData();
     });
 
-    // Fire application engines
     populateSurahList();
     renderBookmarks();
 </script>
