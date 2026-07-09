@@ -8,7 +8,7 @@
     --text-muted: #555555;
     
     /* Branding Palette */
-    --nchs-red: #ce1126;       /* Ironmen Red / Pan-Arab Crimson */
+    --nchs-red: #ce1126;       /* Ironmen Red / Palestine Crimson */
     --islam-green: #006633;    /* Traditional Deep Olive Green */
     --nav-bg: #111111;         /* Stark Black Header */
     --nav-link: #ffffff;
@@ -48,7 +48,7 @@ nav {
     align-items: center;
     background-color: var(--nav-bg) !important;
     padding: 18px 40px;
-    border-bottom: 4px solid var(--nchs-red); /* NCHS Accent Line Divider */
+    border-bottom: 4px solid var(--islam-green); /* Baseline Brand Stripe */
     gap: 25px;
 }
 
@@ -95,7 +95,7 @@ nav a:hover {
    ========================================================================== */
 .portal-layout {
     display: grid;
-    grid-template-columns: 1fr 320px; /* Al-Islam style split main/sidebar */
+    grid-template-columns: 1fr 340px; /* Split main/sidebar layout */
     gap: 40px;
     max-width: 1400px;
     margin: 0 auto;
@@ -117,14 +117,16 @@ nav a:hover {
 .category-card {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-top: 4px solid var(--islam-green); /* Green Top border strip */
+    border-top: 4px solid transparent; /* Hidden by default per analysis notes */
     border-radius: 8px;
     padding: 24px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    transition: border-top-color 0.25s ease, transform 0.2s ease;
 }
 
-.category-card.featured {
-    border-top-color: var(--nchs-red); /* Red alternative flag style */
+/* Highlights Red On Hover ONLY */
+.category-card:hover {
+    border-top-color: var(--nchs-red);
 }
 
 .category-card h3 {
@@ -138,7 +140,7 @@ nav a:hover {
 }
 
 .category-card h3 a:hover {
-    color: var(--islam-green);
+    color: var(--nchs-red);
 }
 
 .category-card ul {
@@ -153,12 +155,14 @@ nav a:hover {
 }
 
 .category-card ul li a {
-    color: var(--nchs-red);
+    color: var(--islam-green);
     text-decoration: none;
+    font-weight: 500;
 }
 
 .category-card ul li a:hover {
     text-decoration: underline;
+    color: var(--nchs-red);
 }
 
 /* Informative Bulletin Sidebar Blocks */
@@ -173,26 +177,38 @@ nav a:hover {
 .schedule-item {
     border-left: 3px solid var(--islam-green);
     padding-left: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .schedule-item.urgent {
     border-left-color: var(--nchs-red);
 }
 
-.schedule-date {
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: var(--nchs-red);
-    text-transform: uppercase;
+.schedule-header-row {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    margin-bottom: 4px;
 }
 
-/* Footer Accent Structure */
+.schedule-date {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--nchs-red);
+    white-space: nowrap;
+}
+
+.schedule-topic {
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+/* Footer Element */
 footer {
     text-align: center;
     padding: 40px;
     margin-top: 80px;
     background-color: var(--nav-bg);
     color: #ffffff;
-    border-top: 4px solid var(--islam-green);
+    border-top: 4px solid var(--nchs-red);
 }
