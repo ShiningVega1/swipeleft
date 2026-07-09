@@ -102,7 +102,6 @@
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             themeToggle.textContent = isDark ? '☀️' : '🌙';
         });
-        
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-theme');
             themeToggle.textContent = '☀️';
