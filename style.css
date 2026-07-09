@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MSA COMMUNITY THEME DESIGN (Palestine Colors & NCHS Ironmen Elements)
+   THEME PALETTE OVERRIDES (Palestine Colors & NCHS Ironmen Branding)
    ========================================================================== */
 :root {
     --bg-color: #ffffff;
@@ -7,28 +7,27 @@
     --card-bg: #ffffff;
     --text-muted: #555555;
     
-    /* Branding Palette */
-    --nchs-red: #ce1126;       /* Ironmen Red / Palestine Crimson */
-    --islam-green: #006633;    /* Traditional Deep Olive Green */
-    --nav-bg: #111111;         /* Stark Black Header */
+    --nchs-red: #ce1126;       /* Ironmen Crimson Accent */
+    --islam-green: #006633;    /* Palestine Flag Olive Emerald */
+    --nav-bg: #111111;         /* Stark Onyx Black */
     --nav-link: #ffffff;
     --border-color: #e0e0e0;
     --accent-bg: #f9f9f9;
 }
 
 body.dark-theme {
-    --bg-color: #0d0d0d;       /* Midnight background */
-    --text-color: #f1f1f1;     /* Clear crisp white text */
-    --card-bg: #1a1a1a;        /* Deep carbon panels */
-    --text-muted: #aaaaaa;     /* Soft slate text descriptors */
-    --nchs-red: #ff3344;       /* High-visibility contrast red */
-    --islam-green: #00cc66;    /* Bright electric emerald green */
-    --nav-bg: #000000;         /* True pitch black */
+    --bg-color: #0d0d0d;       /* Midnight Deep Palette */
+    --text-color: #f1f1f1;     /* Contrast reading text */
+    --card-bg: #1a1a1a;        /* Carbon elements background */
+    --text-muted: #aaaaaa;     /* Soft slate muted descriptions */
+    --nchs-red: #ff3344;       /* Radiant glowing red contrast */
+    --islam-green: #00cc66;    /* Neon branch green */
+    --nav-bg: #000000;         /* Jet black navigation strip */
     --border-color: #2a2a2a;
     --accent-bg: #151515;
 }
 
-/* Global Foundations & Sticky Footer Engine Setup */
+/* Base Dynamic Sticky Footer Construction */
 html, body {
     height: 100%;
     margin: 0;
@@ -46,13 +45,12 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Base App Flex Container Push Wrapper */
 .app-content-wrapper {
     flex: 1 0 auto;
 }
 
 /* ==========================================================================
-   HEADER NAVIGATION
+   GLOBAL TOP NAVIGATION HEADER BAR
    ========================================================================== */
 nav {
     display: flex;
@@ -103,8 +101,14 @@ nav a:hover {
 }
 
 /* ==========================================================================
-   PORTAL CONTENT PANELS
+   PORTAL BLOCK ARRAYS
    ========================================================================== */
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
 .portal-layout {
     display: grid;
     grid-template-columns: 1fr 340px;
@@ -135,6 +139,7 @@ nav a:hover {
     transition: border-top-color 0.25s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
+/* Lights up Ironmen Red exclusively when hovered */
 .category-card:hover {
     border-top-color: var(--nchs-red);
 }
@@ -213,15 +218,13 @@ nav a:hover {
     font-weight: 700;
 }
 
-/* ==========================================================================
-   DYNAMIC STICKY FOOTER BLOCK (Matches Theme Perfectly)
-   ========================================================================== */
+/* Pinned Sticky Footer Framework */
 footer {
     flex-shrink: 0;
     text-align: center;
     padding: 40px;
-    background-color: var(--card-bg); /* Dynamic matching background color */
-    color: var(--text-color);         /* High contrast visibility reading target text */
+    background-color: var(--card-bg);
+    color: var(--text-color);
     border-top: 4px solid var(--nchs-red);
     box-sizing: border-box;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
