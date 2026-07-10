@@ -1,18 +1,26 @@
-const button = document.getElementById("theme-toggle");
+// theme.js - Consistent dark theme handler for SwipeLeft
+const themeToggle = document.getElementById('theme-toggle');
 
-if (localStorage.getItem("theme") === "dark") {
-    document.body.classList.add("dark-mode");
-    button.textContent = "☀️";
-}
-
-button.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-
-    if (document.body.classList.contains("dark-mode")) {
-        localStorage.setItem("theme", "dark");
-        button.textContent = "☀️";
+if (themeToggle) {
+    // Apply saved theme on load
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-theme');
+        themeToggle.textContent = '☀️';
     } else {
-        localStorage.setItem("theme", "light");
-        button.textContent = "🌙";
+        document.body.classList.remove('dark-theme');
+        themeToggle.textContent = '🌙';
     }
-});
+
+    // Toggle handler
+    themeToggle.addEventListener('click', () => {
+        const isDark = document.body.classList.toggle('dark-theme');
+        
+        if (isDark) {
+            localStorage.setItem('theme', 'dark');
+            themeToggle.textContent = '☀️';
+        } else {
+            localStorage.setItem('theme', 'light');
+            themeToggle.textContent = '🌙';
+        }
+    });
+}
