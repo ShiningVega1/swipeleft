@@ -3,8 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - Swipe Left</title>
-    <link rel="stylesheet" href="style.css">
+    <title>About - SwipeLeft</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        /* Specific editorial formatting for reading paragraphs cleanly */
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 24px;
+            color: var(--text-color);
+        }
+        .about-text p:first-of-type {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,45 +35,37 @@
         <button id="theme-toggle">🌙</button>
     </nav>
 
-<div class="content">
-
-    <h1>About Swipe Left</h1>
-
-    <p>
-        Swipe Left is a personal Islamic project dedicated to sharing khutbahs,
-        educational resources, reminders, and practical guidance.
-    </p>
-
-    <p>
-        The phrase "Swipe Left" represents turning away from distractions,
-        temptations, and harmful influences in order to pursue what benefits
-        us in this life and the next.
-    </p>
-
-    <h2>Mission</h2>
-
-    <p>
-        To provide beneficial Islamic content that encourages learning,
-        character, worship, and action.
-    </p>
-
-    <h2>What You'll Find</h2>
-
-    <ul>
-        <li>Khutbahs and reminders</li>
-        <li>Teaching guides</li>
-        <li>Islamic resources</li>
-        <li>Community projects</li>
-        <li>Practical applications of Islam</li>
-    </ul>
-
+    <div class="content" style="max-width: 800px; margin: 0 auto; padding: 40px 20px;">
+        <h1 style="font-size: 2.5rem; margin: 0 0 30px 0; border-bottom: 2px solid var(--border-color); padding-bottom: 12px;">About SwipeLeft</h1>
+        
+        <div class="about-text">
+            <p>
+                SwipeLeft started as a personal project after I realized how difficult it can be to find Islamic resources that are actually useful for high school students. Whether you're a Muslim trying to learn more about your religion, a revert looking for a place to start, or someone who's simply curious about Islam, I wanted to make it easier to find trustworthy information without having to search through dozens of websites.
+            </p>
+            
+            <p>
+                The name SwipeLeft is a reminder to swipe left on our nafs, our desires, and the distractions that take us away from what really matters. Instead of wasting our time on things that don't benefit us, we should try to choose knowledge, good company, and actions that bring us closer to Allah.
+            </p>
+            
+            <p>
+                I built this website to support students in the Muslim Student Association and anyone else who wants to learn. You'll find khutbahs, educational guides, Qur'an and Hadith references, MSA resources, local masjid events, book recommendations, and other material that can help with learning, teaching, or preparing for discussions.
+            </p>
+            
+            <p>
+                I'm not a scholar, and this website isn't meant to replace one. My goal is simply to collect reliable resources, organize them, and make them easier to access. Whenever possible, I reference authentic sources so you can continue learning for yourself.
+            </p>
+            
+            <p>
+                Although SwipeLeft is my project, I want it to grow with the community. If you have an idea, find an error, or think there's something that would help other students, I'd love to hear from you through the <a href="/contact.html" style="color: var(--islam-green); font-weight: bold; text-decoration: none;">contact form</a>.
+            </p>
+        </div>
+    </div>
 </div>
 
 <footer>
-    © Swipe Left
+    © SwipeLeft
 </footer>
 
-<script src="theme.js"></script>
 <script>
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
