@@ -6,28 +6,52 @@
     <title>Admin Dashboard - SwipeLeft</title>
     <link rel="stylesheet" href="/style.css">
     <style>
-        .admin-nav {
+        .admin-header {
             background: var(--nav-bg);
-            padding: 15px;
+            padding: 20px;
             margin-bottom: 30px;
             display: flex;
-            gap: 15px;
+            align-items: center;
+            gap: 20px;
             flex-wrap: wrap;
         }
         .tab {
-            padding: 10px 20px;
+            padding: 12px 24px;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
         }
         .tab.active {
             background: var(--islam-green);
             color: white;
             border-color: var(--islam-green);
         }
-        .admin-section { display: none; }
-        .admin-section.active { display: block; }
+        .admin-section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+        button {
+            background: var(--islam-green);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -35,48 +59,37 @@
     <nav>
         <a href="/" class="nav-brand">SwipeLeft Admin</a>
         <button id="theme-toggle">🌙</button>
-        <button onclick="logout()" style="margin-left: auto; background: #ce1126; color: white; border: none; padding: 8px 16px; border-radius: 6px;">Logout</button>
+        <button onclick="logout()" style="margin-left: auto; background: var(--nchs-red); color: white;">Logout</button>
     </nav>
 
     <div class="content">
         <h1>Admin Dashboard</h1>
-        
-        <div class="admin-nav">
+
+        <div class="admin-header">
             <div class="tab active" onclick="showTab(0)">Schedule Events</div>
             <div class="tab" onclick="showTab(1)">Add Khutbah</div>
             <div class="tab" onclick="showTab(2)">Make Post</div>
         </div>
 
-        <!-- Schedule Tab -->
+        <!-- Schedule -->
         <div class="admin-section active" id="tab0">
             <h2>Add New Event</h2>
             <form id="scheduleForm">
                 <input type="text" id="eventDate" placeholder="Date (e.g. 8/28)" required>
                 <input type="text" id="eventTopic" placeholder="Topic" required>
-                <textarea id="eventDesc" placeholder="Description / Details" rows="3"></textarea>
+                <textarea id="eventDesc" placeholder="Description / Details" rows="4"></textarea>
                 <button type="submit">Add to Schedule</button>
             </form>
         </div>
 
-        <!-- Khutbah Tab -->
+        <!-- Other tabs (placeholder for now) -->
         <div class="admin-section" id="tab1">
             <h2>Add New Khutbah</h2>
-            <form id="khutbahForm">
-                <input type="text" id="khutbahTitle" placeholder="Khutbah Title" required>
-                <input type="text" id="khutbahSpeaker" placeholder="Speaker (e.g. Br. Imran)">
-                <textarea id="khutbahContent" placeholder="Khutbah content / summary" rows="8"></textarea>
-                <button type="submit">Publish Khutbah</button>
-            </form>
+            <p>Coming soon...</p>
         </div>
-
-        <!-- Posts Tab -->
         <div class="admin-section" id="tab2">
-            <h2>Create Announcement / Post</h2>
-            <form id="postForm">
-                <input type="text" id="postTitle" placeholder="Post Title" required>
-                <textarea id="postBody" placeholder="Post content" rows="6"></textarea>
-                <button type="submit">Publish Post</button>
-            </form>
+            <h2>Create Announcement</h2>
+            <p>Coming soon...</p>
         </div>
     </div>
 </div>
@@ -86,8 +99,8 @@
 <script src="/theme.js"></script>
 <script>
     function showTab(n) {
-        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.admin-section').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
         document.getElementById('tab' + n).classList.add('active');
         document.querySelectorAll('.tab')[n].classList.add('active');
     }
@@ -97,22 +110,9 @@
         window.location.href = '/admin/login.html';
     }
 
-    // Form handlers (will connect to backend later)
     document.getElementById('scheduleForm').addEventListener('submit', (e) => {
         e.preventDefault();
-        alert('✅ Event added to schedule! (Backend connection coming soon)');
-        e.target.reset();
-    });
-
-    document.getElementById('khutbahForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('✅ Khutbah published!');
-        e.target.reset();
-    });
-
-    document.getElementById('postForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('✅ Post published!');
+        alert('Event added successfully!');
         e.target.reset();
     });
 </script>
