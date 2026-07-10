@@ -1,8 +1,14 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "swipeleft",
-  "compatibility_date": "2026-06-04",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "swipeleft",
+  "compatibility_date": "2026-06-04",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "."
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
 }
